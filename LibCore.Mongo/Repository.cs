@@ -2,6 +2,7 @@ using System;
 using MongoDB.Driver;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace LibCore.Mongo
 {
@@ -33,6 +34,20 @@ namespace LibCore.Mongo
             if (coll == null)
                 return;
             coll.Indexes.CreateOne(indexDefinition, options);
+        }
+
+        public async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> filter, PagingOptions pagingOptions = null)
+        {
+            var options = new FindOptions<TEntity>();
+            if(null != pagingOptions)
+            {
+                options.Limit = pagingOptions.PageSize;
+                options.Skip = pagingOptions.Offset;
+            }
+
+            var cursor = await _collection.FindAsync(filter, options);
+
+            return await cursor.ToListAsync();
         }
 
         public async Task<TEntity> FindOneAsync(Expression<Func<TEntity, bool>> filter)

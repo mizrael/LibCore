@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace LibCore.Mongo
         void CreateIndex(IndexKeysDefinition<TEntity> indexDefinition);
         void CreateIndex(IndexKeysDefinition<TEntity> indexDefinition, CreateIndexOptions options);
 
+        Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> filter, PagingOptions pagingOptions = null);
         Task<TEntity> FindOneAsync(Expression<Func<TEntity, bool>> filter);
 
         Task<long> CountAsync(Expression<Func<TEntity, bool>> filter);
