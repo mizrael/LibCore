@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 
@@ -10,9 +8,11 @@ namespace LibCore.Web.Services
     {
         public async Task<PingResult> PingAsync(string address, int timeout)
         {
+            var uri = new Uri(address);
+            
             using (var pinger = new Ping())
             {
-                var result = await pinger.SendPingAsync(address, timeout);
+                var result = await pinger.SendPingAsync(uri.Authority, timeout);
                 return new PingResult((result.Status == IPStatus.Success), result.RoundtripTime);
             }
         }
