@@ -20,6 +20,8 @@ namespace LibCore.Mongo
         Task InsertOneAsync(TEntity entity);
         Task<TEntity> UpsertOneAsync(Expression<Func<TEntity, bool>> filter, TEntity entity);
 
+        Task DeleteOneAsync(Expression<Func<TEntity, bool>> filter);
+
         string CollectionName { get; }
     }
 

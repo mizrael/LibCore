@@ -72,6 +72,11 @@ namespace LibCore.Mongo
                                                       new FindOneAndReplaceOptions<TEntity, TEntity>() { IsUpsert = true });
         }
 
+        public Task DeleteOneAsync(Expression<Func<TEntity, bool>> filter)
+        {
+            return _collection.FindOneAndDeleteAsync(filter);
+        }
+
         public string CollectionName { get; private set; }
     }
 
