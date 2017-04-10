@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text;
 using System.Collections.Generic;
+using LibCore.Web.Extensions;
 
 namespace LibCore.Web.HTTP
 {
@@ -33,16 +34,19 @@ namespace LibCore.Web.HTTP
 			return await ReadDto<TRes>(response);
 		}
 
-		public async Task<HttpResponseMessage> PostAsync(RequestData data)
+		public async Task<HttpResponseMessage> PostAsync(RequestData request)
 		{
-			return await ExecuteRequest(data, HttpMethod.Post);
+			return await ExecuteRequest(request, HttpMethod.Post);
 		}
 
-		public async Task<TRes> PostAsync<TRes>(RequestData data)
+		public async Task<TRes> PostAsync<TRes>(RequestData request)
 		{
-			var response = await PostAsync(data);
-			if (null == response || !response.IsSuccessStatusCode)
-				return default(TRes);
+			var response = await PostAsync(request);
+            if (null == response)
+                throw new HttpRequestException($"unable to perform POST request to '{request.Url}'");
+
+            await response.AssertSuccessfulAsync();
+            
 			return await ReadDto<TRes>(response);
 		}
 
