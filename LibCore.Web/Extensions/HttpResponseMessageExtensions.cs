@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using LibCore.Web.Exceptions;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace LibCore.Web.Extensions
@@ -19,7 +20,7 @@ namespace LibCore.Web.Extensions
 
             var errorInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<ApiErrorInfoDTO>(responseContent);
             if (null != errorInfo && !string.IsNullOrWhiteSpace(errorInfo.Message))
-                throw new HttpRequestException(errorInfo.Message);
+                throw new ApiException(errorInfo.Message, errorInfo.Details);
             else
                 throw new HttpRequestException("an error has occurred");
 

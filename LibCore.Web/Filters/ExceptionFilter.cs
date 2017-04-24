@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using LibCore.Web.Models;
 using LibCore.CQRS.Validation;
+using LibCore.Web.Exceptions;
 
 namespace LibCore.Web.Filters
 {
@@ -14,6 +15,7 @@ namespace LibCore.Web.Filters
             if (context.Exception is System.ArgumentException ||
                context.Exception is System.ArgumentNullException ||
                context.Exception is System.ArgumentOutOfRangeException ||
+               context.Exception is ApiException ||
                context.Exception is ValidationException)
                 status = 400;
 

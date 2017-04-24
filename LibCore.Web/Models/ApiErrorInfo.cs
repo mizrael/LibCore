@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Collections.ObjectModel;
 using LibCore.CQRS.Validation;
+using LibCore.Web.Exceptions;
 
 namespace LibCore.Web.Models
 {
@@ -36,6 +37,10 @@ namespace LibCore.Web.Models
             var validEx = ex as ValidationException;
             if (null != validEx)
                 errors = validEx.Errors.Select(err => new ApiError(err.Context, err.Message));
+
+            var apiEx = ex as ApiException;
+            if (null != apiEx)
+                errors = apiEx.Details;
 
             var result = new ApiErrorInfo(ex.Message, errors);
 
