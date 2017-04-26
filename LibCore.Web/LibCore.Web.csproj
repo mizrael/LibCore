@@ -7,7 +7,6 @@
   <ItemGroup>
     <PackageReference Include="MediatR" Version="3.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
-    <PackageReference Include="SimpleInjector" Version="3.3.2" />
     <PackageReference Include="System.Net.Ping" Version="4.3.0" />
   </ItemGroup>
 

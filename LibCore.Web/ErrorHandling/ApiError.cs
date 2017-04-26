@@ -1,6 +1,6 @@
 using System;
 
-namespace LibCore.Web.Models
+namespace LibCore.Web.ErrorHandling
 {
     public class ApiError
     {

@@ -28,8 +28,8 @@ namespace LibCore.Web.Extensions
 
         internal class ApiErrorInfoDTO
         {
-            public string Message;
-            public Models.ApiError[] Details;
+            public string Message = string.Empty;
+            public ErrorHandling.ApiError[] Details = null;
         }
     }
 }
