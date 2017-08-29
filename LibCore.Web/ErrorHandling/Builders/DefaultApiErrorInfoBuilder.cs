@@ -1,10 +1,11 @@
 ﻿namespace LibCore.Web.ErrorHandling.Builders
 {
-    public class DefaultApiErrorInfoBuilder : IApiErrorInfoBuilder<System.Exception>
+    public class DefaultApiErrorInfoBuilder<TEx> : IApiErrorInfoBuilder<TEx> where TEx : System.Exception
     {
-        public ApiErrorInfo Build(System.Exception ex)
+        public ApiErrorInfo Build(TEx ex, ApiErroInfoBuilderOptions options)
         {
-            var result = new ApiErrorInfo(ex.Message);
+            var message = options.LoggingLevel == ApiErroInfoBuilderOptions.LoggingLevels.Verbose ? ex.ToString() : ex.Message;
+            var result = new ApiErrorInfo(message);
 
             return result;
         }

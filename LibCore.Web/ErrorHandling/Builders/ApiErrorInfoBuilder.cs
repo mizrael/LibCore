@@ -4,9 +4,10 @@ namespace LibCore.Web.ErrorHandling.Builders
 {
     public class ApiErrorInfoBuilder : IApiErrorInfoBuilder<ApiException>
     {
-        public ApiErrorInfo Build(ApiException ex)
+        public ApiErrorInfo Build(ApiException ex, ApiErroInfoBuilderOptions options)
         {
-            var result = new ApiErrorInfo(ex.Message, ex.Details);
+            var message = options.LoggingLevel == ApiErroInfoBuilderOptions.LoggingLevels.Verbose ? ex.ToString() : ex.Message;
+            var result = new ApiErrorInfo(message, ex.Details);
 
             return result;
         }

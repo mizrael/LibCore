@@ -13,9 +13,7 @@ namespace LibCore.Mongo
 
         public Repository(IMongoCollection<TEntity> collection)
         {
-            if (null == collection)
-                throw new ArgumentNullException(nameof(collection));
-            _collection = collection;
+            _collection = collection ?? throw new ArgumentNullException(nameof(collection));
 
             this.CollectionName = collection.CollectionNamespace.CollectionName;
         }
@@ -66,8 +64,13 @@ namespace LibCore.Mongo
             return _collection.InsertOneAsync(entity);
         }
 
-        public Task<TEntity> UpsertOneAsync(Expression<Func<TEntity, bool>> filter, TEntity entity)
+        public Task<TEntity> FindOneAndUpdateAsync(Expression<Func<TEntity, bool>> filter, UpdateDefinition<TEntity> update)
         {
+            return _collection.FindOneAndUpdateAsync(filter, update, new FindOneAndUpdateOptions<TEntity, TEntity>() { ReturnDocument = ReturnDocument.After });
+        }
+
+        public Task<TEntity> UpsertOneAsync(Expression<Func<TEntity, bool>> filter, TEntity entity)
+        {   
             return _collection.FindOneAndReplaceAsync(filter, entity,
                                                       new FindOneAndReplaceOptions<TEntity, TEntity>() { IsUpsert = true });
         }

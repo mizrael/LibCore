@@ -15,6 +15,8 @@ namespace LibCore.Mongo
         Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> filter, PagingOptions pagingOptions = null);
         Task<TEntity> FindOneAsync(Expression<Func<TEntity, bool>> filter);
 
+        Task<TEntity> FindOneAndUpdateAsync(Expression<Func<TEntity, bool>> filter, UpdateDefinition<TEntity> update);
+
         Task<long> CountAsync(Expression<Func<TEntity, bool>> filter);
 
         Task InsertOneAsync(TEntity entity);

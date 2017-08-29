@@ -13,9 +13,10 @@ namespace LibCore.Web.Extensions
             container.Register<IApiErrorInfoBuilder<ValidationException>, ValidationApiErrorInfoBuilder>();
             container.Register<IApiErrorInfoBuilder<ApiException>, ApiErrorInfoBuilder>();
 
-            container.RegisterConditional(typeof(IApiErrorInfoBuilder<>), typeof(DefaultApiErrorInfoBuilder), c => !c.Handled);
-            
-            container.Register<IApiErrorInfoFactory, ApiErrorInfoFactory>();
+            container.RegisterConditional(typeof(IApiErrorInfoBuilder<>), typeof(DefaultApiErrorInfoBuilder<>), c => !c.Handled);
+
+            var options = new ApiErroInfoBuilderOptions(ApiErroInfoBuilderOptions.LoggingLevels.Minimal);
+            container.Register<IApiErrorInfoFactory>(() => new ApiErrorInfoFactory(container, options));
         }
     }
 }
